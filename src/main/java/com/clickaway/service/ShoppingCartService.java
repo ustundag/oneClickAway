@@ -9,5 +9,7 @@ public interface ShoppingCartService {
 
     ShoppingCartDTO addItem(ProductDTO productDTO);
 
+    ShoppingCartDTO finishShopping();
+
     //void deleteItem(Long id);
 }

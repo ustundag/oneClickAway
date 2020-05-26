@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,12 +24,6 @@ public class ShoppingCartCalculator {
 
     public BigDecimal calculateTotal(List<ShoppingCartItem> items) {
         BigDecimal total = new BigDecimal(0);
-        /*
-        total = items.stream()
-                .map(ShoppingCartItem::getPrice)
-                .reduce(BigDecimal::add)
-                .get();
-        */
         total = items.stream()
                 .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal::add)
@@ -45,43 +36,53 @@ public class ShoppingCartCalculator {
         List<Coupon> eligibleCoupons = couponRepository.findAllByMinAmountIsLessThanEqual(current);
         if (eligibleCoupons.size() != 0) {
             Coupon coupon = Collections.max(eligibleCoupons, Comparator.comparing(c -> c.getMinAmount()));
+            System.out.println("[ShoppingCartCalculator] calculateCouponDiscount() -> Successfully applied the coupon below...");
+            System.out.println(coupon.toString());
             switch (coupon.getDiscountType()) {
                 case AMOUNT:
-                    couponDiscount = current.subtract(coupon.getDiscount());
+                    couponDiscount = coupon.getDiscount();
+                    System.out.println("current:" + current + ", couponDiscount: " + couponDiscount + ", AMOUNT");
+                    break;
                 case RATE:
                     couponDiscount = current.multiply(coupon.getDiscount()).divide(HUNDRED);
+                    System.out.println("current:" + current + ", couponDiscount: " + couponDiscount + ", RATE");
+                    break;
             }
         }
         return couponDiscount;
     }
 
-    public BigDecimal calculateCampaignDiscount(List<ShoppingCartItem> cartItems, BigDecimal total) {
+    public BigDecimal calculateCampaignDiscount(List<ShoppingCartItem> cartItems, BigDecimal current) {
         BigDecimal campaignDiscount = new BigDecimal(0);
         Map<Long, List<ShoppingCartItem>> itemsGroupedByCategory =
                 cartItems.stream().collect(Collectors.groupingBy(ShoppingCartItem::getCategoryId));
 
-        campaignDiscount = itemsGroupedByCategory.keySet().stream()
-                .map(catId -> calculateDiscount(catId, itemsGroupedByCategory.get(catId), total))
-                .reduce(BigDecimal::add)
-                .get();
+        int quantity = cartItems.stream()
+                .mapToInt(ShoppingCartItem::getQuantity)
+                .sum();
 
-        return campaignDiscount;
-    }
-
-    private BigDecimal calculateDiscount(Long catId, List<ShoppingCartItem> cartItems, BigDecimal total) {
-        BigDecimal discount = new BigDecimal(0);
-        List<Campaign> eligibleCampaigns = campaignRepository.findAllByCategoryIdAndItemLimitIsLessThanEqual(catId, cartItems.size());
-        if (eligibleCampaigns.size() > 0) {
-            // TODO apply the campaign with max discount, but now only first.
-            Campaign campaign = eligibleCampaigns.get(0);
-            switch (campaign.getDiscountType()) {
-                case AMOUNT:
-                    discount = campaign.getDiscount();
-                case RATE:
-                    discount = total.multiply(campaign.getDiscount()).divide(HUNDRED);
+        List<Campaign> eligibleCampaigns = new ArrayList<>();
+        for (Long catId : itemsGroupedByCategory.keySet()) {
+            eligibleCampaigns = campaignRepository.findAllByCategoryIdAndItemLimitIsLessThanEqual(catId, quantity);
+            if (eligibleCampaigns.size() > 0) {
+                // TODO apply the campaign with max discount, but now only first.
+                Campaign campaign = eligibleCampaigns.get(0);
+                System.out.println("[ShoppingCartCalculator] calculateCampaignDiscount() -> Successfully applied the campaign below...");
+                System.out.println(campaign.toString());
+                switch (campaign.getDiscountType()) {
+                    case AMOUNT:
+                        campaignDiscount = campaign.getDiscount();
+                        System.out.println("current:" + current + ", campaignDiscount: " + campaignDiscount + ", AMOUNT");
+                        break;
+                    case RATE:
+                        campaignDiscount = current.multiply(campaign.getDiscount()).divide(HUNDRED);
+                        System.out.println("current:" + current + ", campaignDiscount: " + campaignDiscount + ", RATE");
+                        break;
+                }
+                break;
             }
         }
-        return discount;
+        return campaignDiscount;
     }
 
     public BigDecimal calculateDeliveryCost(List<ShoppingCartItem> cartItems) {

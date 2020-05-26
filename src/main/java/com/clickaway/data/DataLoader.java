@@ -35,22 +35,22 @@ public class DataLoader implements ApplicationRunner {
 
     private void insertCampaigns() {
         Campaign campaign = new Campaign();
-        campaign.setTitle("summer");
-        campaign.setCategoryId(1L);
+        campaign.setTitle("device-summer");
+        campaign.setCategoryId(2L);
         campaign.setDiscount(new BigDecimal(20));
         campaign.setItemLimit(3);
         campaign.setDiscountType(DiscountType.RATE);
         campaignRepository.save(campaign);
         campaign = new Campaign();
-        campaign.setTitle("winter");
-        campaign.setCategoryId(1L);
+        campaign.setTitle("clothes-winter");
+        campaign.setCategoryId(3L);
         campaign.setDiscount(new BigDecimal(50));
         campaign.setItemLimit(5);
         campaign.setDiscountType(DiscountType.RATE);
         campaignRepository.save(campaign);
         campaign = new Campaign();
         campaign.setTitle("occasional");
-        campaign.setCategoryId(2L);
+        campaign.setCategoryId(1L);
         campaign.setDiscount(new BigDecimal(5));
         campaign.setItemLimit(5);
         campaign.setDiscountType(DiscountType.AMOUNT);
@@ -83,28 +83,22 @@ public class DataLoader implements ApplicationRunner {
         coupon.setDiscount(new BigDecimal(15));
         coupon.setDiscountType(DiscountType.AMOUNT);
         couponRepository.save(coupon);
-        coupon = new Coupon();
-        coupon.setTitle("surprise");
-        coupon.setMinAmount(new BigDecimal(50));
-        coupon.setDiscount(new BigDecimal(20));
-        coupon.setDiscountType(DiscountType.AMOUNT);
-        couponRepository.save(coupon);
     }
 
     private void insertProducts() {
         Product product = new Product();
         product.setTitle("laptop");
-        product.setCategoryId(1L);
+        product.setCategoryId(2L);
         product.setPrice(new BigDecimal(10));
         productRepository.save(product);
         product = new Product();
         product.setTitle("phone");
-        product.setCategoryId(1L);
+        product.setCategoryId(2L);
         product.setPrice(new BigDecimal(20));
         productRepository.save(product);
         product = new Product();
         product.setTitle("t-shirt");
-        product.setCategoryId(2L);
+        product.setCategoryId(3L);
         product.setPrice(new BigDecimal(30));
         productRepository.save(product);
     }

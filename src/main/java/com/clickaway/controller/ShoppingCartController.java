@@ -21,6 +21,12 @@ public class ShoppingCartController {
         return ResponseEntity.ok().body(shoppingCartDTO);
     }
 
+    @GetMapping("/finish")
+    public ResponseEntity<ShoppingCartDTO> finishShopping() {
+        ShoppingCartDTO shoppingCartDTO = shoppingCartService.finishShopping();
+        return ResponseEntity.ok().body(shoppingCartDTO);
+    }
+
     @PostMapping
     public ResponseEntity<ShoppingCartDTO> addItem(@RequestBody ProductDTO productDTO) {
         ShoppingCartDTO shoppingCartDTO = shoppingCartService.addItem(productDTO);

@@ -16,34 +16,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShoppingCartTransformer {
     private final ShoppingCartCalculator shoppingCartCalculator;
-
-    private BigDecimal total = new BigDecimal(0);
-    private BigDecimal couponDiscount = new BigDecimal(0);
-    private BigDecimal campaignDiscount = new BigDecimal(0);
-    private BigDecimal deliveryCost = new BigDecimal(0);
-    private BigDecimal finalAmount = new BigDecimal(0);
-    private int quantity = 0;
+    private final BigDecimal ZERO = new BigDecimal(0);
 
     public ShoppingCartDTO transformToShoppingCartDTO(ShoppingCart shoppingCart) {
         List<ShoppingCartItem> cartItems = shoppingCart.getCartItems();
+        BigDecimal total = new BigDecimal(0);
+        int quantity = 0;
+
         if (cartItems.size() > 0) {
             total = shoppingCartCalculator.calculateTotal(cartItems);
-            campaignDiscount = shoppingCartCalculator.calculateCampaignDiscount(cartItems, total);
-            couponDiscount = shoppingCartCalculator.calculateCouponDiscount(total.subtract(campaignDiscount));
-            deliveryCost = shoppingCartCalculator.calculateDeliveryCost(cartItems);
+            quantity = cartItems.stream()
+                    .mapToInt(ShoppingCartItem::getQuantity)
+                    .sum();
         }
-        quantity = cartItems.stream()
-                .mapToInt(ShoppingCartItem::getQuantity)
-                .sum();
 
         ShoppingCartDTO shoppingCartDTO = ShoppingCartDTO.builder()
                 .categories(new HashMap<>())
                 .quantity(quantity)
                 .total(total)
-                .couponDiscount(couponDiscount)
-                .campaignDiscount(campaignDiscount)
-                .deliveryCost(deliveryCost)
-                .finalAmount(total.subtract(couponDiscount.add(campaignDiscount))).build();
+                .couponDiscount(ZERO)
+                .campaignDiscount(ZERO)
+                .deliveryCost(ZERO)
+                .finalAmount(ZERO).build();
 
         shoppingCartDTO.setId(shoppingCart.getId());
         shoppingCartDTO.setTitle(shoppingCart.getTitle());
