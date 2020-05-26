@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cart")
 public class ShoppingCartController {
-
-    //@Autowired
     private final ShoppingCartServiceImpl shoppingCartService;
 
     @GetMapping
@@ -22,7 +20,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/finish")
-    public ResponseEntity<ShoppingCartDTO> finishShopping() {
+    public ResponseEntity<ShoppingCartDTO> finishShopping() throws IllegalAccessException, InstantiationException {
         ShoppingCartDTO shoppingCartDTO = shoppingCartService.finishShopping();
         return ResponseEntity.ok().body(shoppingCartDTO);
     }

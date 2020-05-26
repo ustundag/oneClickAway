@@ -1,14 +1,14 @@
 package com.clickaway.data;
 
-import com.clickaway.model.entity.Campaign;
-import com.clickaway.model.entity.Category;
-import com.clickaway.model.entity.Coupon;
-import com.clickaway.model.entity.Product;
-import com.clickaway.model.types.DiscountType;
+import com.clickaway.entity.Campaign;
+import com.clickaway.entity.Category;
+import com.clickaway.entity.Coupon;
+import com.clickaway.entity.Product;
 import com.clickaway.repository.CampaignRepository;
 import com.clickaway.repository.CategoryRepository;
 import com.clickaway.repository.CouponRepository;
 import com.clickaway.repository.ProductRepository;
+import com.clickaway.types.DiscountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

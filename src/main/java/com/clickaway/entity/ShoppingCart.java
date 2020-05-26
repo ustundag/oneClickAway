@@ -1,11 +1,10 @@
-package com.clickaway.model.entity;
+package com.clickaway.entity;
 
 import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity

@@ -1,6 +1,6 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.Coupon;
+import com.clickaway.entity.Coupon;
 import com.clickaway.service.dto.CouponDTO;
 
 import java.util.List;

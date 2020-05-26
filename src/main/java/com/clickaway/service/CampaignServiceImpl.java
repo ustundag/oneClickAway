@@ -1,6 +1,6 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.Campaign;
+import com.clickaway.entity.Campaign;
 import com.clickaway.repository.CampaignRepository;
 import com.clickaway.service.dto.CampaignDTO;
 import com.clickaway.transformer.CampaignTransformer;
@@ -17,7 +17,7 @@ public class CampaignServiceImpl implements CampaignService {
 
     //Field injection is not recommended ?
     //@Autowired
-    private final CampaignRepository  campaignRepository;
+    private final CampaignRepository campaignRepository;
     private final CampaignTransformer campaignTransformer;
 
     @Override

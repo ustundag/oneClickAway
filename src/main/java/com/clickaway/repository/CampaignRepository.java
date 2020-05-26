@@ -1,11 +1,9 @@
 package com.clickaway.repository;
 
-import com.clickaway.model.entity.Campaign;
-import com.clickaway.model.entity.Coupon;
+import com.clickaway.entity.Campaign;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Repository

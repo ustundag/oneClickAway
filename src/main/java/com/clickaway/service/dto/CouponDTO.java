@@ -1,6 +1,6 @@
 package com.clickaway.service.dto;
 
-import com.clickaway.model.types.DiscountType;
+import com.clickaway.types.DiscountType;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ import java.net.URI;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class CouponDTO extends AbstractDTO{
+public class CouponDTO extends AbstractDTO {
     private BigDecimal minAmount;
     private BigDecimal discount;
     private DiscountType discountType;

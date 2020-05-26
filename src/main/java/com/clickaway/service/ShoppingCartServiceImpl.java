@@ -1,7 +1,10 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.ShoppingCart;
-import com.clickaway.model.entity.ShoppingCartItem;
+import com.clickaway.calculator.DeliveryCostCalculatorImpl;
+import com.clickaway.calculator.DiscountCalculatorFactory;
+import com.clickaway.constant.Constant;
+import com.clickaway.entity.ShoppingCart;
+import com.clickaway.entity.ShoppingCartItem;
 import com.clickaway.repository.CategoryIDAndTitle;
 import com.clickaway.repository.CategoryRepository;
 import com.clickaway.repository.ShoppingCartRepository;
@@ -9,7 +12,6 @@ import com.clickaway.service.dto.ProductDTO;
 import com.clickaway.service.dto.ShoppingCartDTO;
 import com.clickaway.transformer.ProductTransformer;
 import com.clickaway.transformer.ShoppingCartTransformer;
-import com.clickaway.util.ShoppingCartCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,28 +20,23 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.clickaway.types.CalculatorType.CAMPAIGN;
+import static com.clickaway.types.CalculatorType.COUPON;
+
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final CategoryRepository categoryRepository;
     private final ShoppingCartTransformer shoppingCartTransformer;
-    private final ShoppingCartCalculator shoppingCartCalculator;
+    private final DeliveryCostCalculatorImpl deliveryCostCalculatorImpl;
     private final ProductTransformer productTransformer;
+    private final DiscountCalculatorFactory discountCalculatorFactory;
     private ShoppingCartDTO mainShoppingCartDTO = null;
 
     @Override
     public ShoppingCartDTO getShoppingCart() {
         return Optional.ofNullable(mainShoppingCartDTO).orElseGet(() -> fetchShoppingCart());
-    }
-
-    private ShoppingCartDTO fetchShoppingCart() {
-        ShoppingCart cart = new ShoppingCart();
-        cart.setTitle("Welcome to OneClickAway. Let's fill your shopping cart up!");
-        cart.setCartItems(new ArrayList<>());
-        cart = shoppingCartRepository.save(cart);
-        this.mainShoppingCartDTO = shoppingCartTransformer.transformToShoppingCartDTO(cart);
-        return this.mainShoppingCartDTO;
     }
 
     @Transactional
@@ -58,19 +55,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return updateMainShoppingCartDTO();
     }
 
-    private ShoppingCartDTO updateMainShoppingCartDTO() {
-        ShoppingCart cart = shoppingCartRepository.findById(mainShoppingCartDTO.getId()).get();
-        mainShoppingCartDTO = shoppingCartTransformer.transformToShoppingCartDTO(cart);
-        mainShoppingCartDTO.setCategories(getProductsByCategory(cart.getCartItems()));
-        return this.mainShoppingCartDTO;
-    }
-
     @Override
-    public ShoppingCartDTO finishShopping() {
-        ShoppingCart cart = shoppingCartRepository.findById(mainShoppingCartDTO.getId()).get();
-        BigDecimal campaignDiscount = shoppingCartCalculator.calculateCampaignDiscount(cart.getCartItems(), mainShoppingCartDTO.getTotal());
-        BigDecimal couponDiscount = shoppingCartCalculator.calculateCouponDiscount(mainShoppingCartDTO.getTotal().subtract(campaignDiscount));
-        BigDecimal deliveryCost = shoppingCartCalculator.calculateDeliveryCost(cart.getCartItems());
+    public ShoppingCartDTO finishShopping() throws InstantiationException, IllegalAccessException {
+        BigDecimal campaignDiscount = (BigDecimal) discountCalculatorFactory
+                .getDiscountCalculator(CAMPAIGN)
+                .calculateDiscount(mainShoppingCartDTO.getTotal());
+
+        BigDecimal couponDiscount = (BigDecimal) discountCalculatorFactory
+                .getDiscountCalculator(COUPON)
+                .calculateDiscount(mainShoppingCartDTO.getTotal().subtract(campaignDiscount));
+
+        BigDecimal deliveryCost = deliveryCostCalculatorImpl.calculateDeliveryCost();
         BigDecimal finalAmount = mainShoppingCartDTO.getTotal()
                 .subtract(campaignDiscount)
                 .subtract(couponDiscount);
@@ -82,12 +77,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return mainShoppingCartDTO;
     }
 
-    private ShoppingCart appendShoppingCart(ShoppingCart shoppingCart, ProductDTO productDTO) {
-        List<ShoppingCartItem> cartItemList = shoppingCart.getCartItems();
-        ShoppingCartItem cartItem = productTransformer.transformToCartItem(productDTO);
-        cartItemList.add(cartItem);
-        shoppingCart.setCartItems(cartItemList);
-        return shoppingCart;
+    private ShoppingCartDTO fetchShoppingCart() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.setTitle(Constant.TITLE);
+        cart.setCartItems(new ArrayList<>());
+        cart = shoppingCartRepository.save(cart);
+        this.mainShoppingCartDTO = shoppingCartTransformer.transformToShoppingCartDTO(cart);
+        return this.mainShoppingCartDTO;
+    }
+
+    private ShoppingCartDTO updateMainShoppingCartDTO() {
+        ShoppingCart cart = shoppingCartRepository.findById(mainShoppingCartDTO.getId()).get();
+        mainShoppingCartDTO = shoppingCartTransformer.transformToShoppingCartDTO(cart);
+        mainShoppingCartDTO.setCategories(getProductsByCategory(cart.getCartItems()));
+        return this.mainShoppingCartDTO;
     }
 
     private Map<String, List<ShoppingCartItem>> getProductsByCategory(List<ShoppingCartItem> cartItems) {
@@ -108,6 +111,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         });
 
         return categoryMap;
+    }
+
+    private ShoppingCart appendShoppingCart(ShoppingCart shoppingCart, ProductDTO productDTO) {
+        List<ShoppingCartItem> cartItemList = shoppingCart.getCartItems();
+        ShoppingCartItem cartItem = productTransformer.transformToCartItem(productDTO);
+        cartItemList.add(cartItem);
+        shoppingCart.setCartItems(cartItemList);
+        return shoppingCart;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.clickaway.transformer;
 
-import com.clickaway.model.entity.Coupon;
+import com.clickaway.entity.Coupon;
 import com.clickaway.service.dto.CouponDTO;
 import org.springframework.stereotype.Component;
 

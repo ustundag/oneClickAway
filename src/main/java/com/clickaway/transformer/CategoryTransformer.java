@@ -1,6 +1,6 @@
 package com.clickaway.transformer;
 
-import com.clickaway.model.entity.Category;
+import com.clickaway.entity.Category;
 import com.clickaway.service.dto.CategoryDTO;
 import org.springframework.stereotype.Component;
 

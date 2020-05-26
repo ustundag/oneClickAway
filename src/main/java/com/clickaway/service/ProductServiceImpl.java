@@ -1,6 +1,6 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.Product;
+import com.clickaway.entity.Product;
 import com.clickaway.repository.ProductRepository;
 import com.clickaway.service.dto.ProductDTO;
 import com.clickaway.transformer.ProductTransformer;

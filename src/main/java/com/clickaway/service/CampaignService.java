@@ -1,6 +1,6 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.Campaign;
+import com.clickaway.entity.Campaign;
 import com.clickaway.service.dto.CampaignDTO;
 
 import java.util.List;

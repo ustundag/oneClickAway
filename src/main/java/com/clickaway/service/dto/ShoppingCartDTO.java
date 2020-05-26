@@ -1,6 +1,6 @@
 package com.clickaway.service.dto;
 
-import com.clickaway.model.entity.ShoppingCartItem;
+import com.clickaway.entity.ShoppingCartItem;
 import lombok.*;
 
 import java.math.BigDecimal;

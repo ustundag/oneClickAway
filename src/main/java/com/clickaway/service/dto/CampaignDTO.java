@@ -1,6 +1,6 @@
 package com.clickaway.service.dto;
 
-import com.clickaway.model.types.DiscountType;
+import com.clickaway.types.DiscountType;
 import lombok.*;
 
 import java.math.BigDecimal;

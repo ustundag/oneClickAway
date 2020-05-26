@@ -1,7 +1,7 @@
 package com.clickaway.transformer;
 
-import com.clickaway.model.entity.Product;
-import com.clickaway.model.entity.ShoppingCartItem;
+import com.clickaway.entity.Product;
+import com.clickaway.entity.ShoppingCartItem;
 import com.clickaway.service.dto.ProductDTO;
 import org.springframework.stereotype.Component;
 

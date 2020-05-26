@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ClickAwayApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ClickAwayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ClickAwayApplication.class, args);
+    }
 
 }

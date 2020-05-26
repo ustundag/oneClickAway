@@ -11,7 +11,7 @@ import java.net.URI;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class ProductDTO extends AbstractDTO{
+public class ProductDTO extends AbstractDTO {
     private BigDecimal price;
     private Long categoryId;
     private int quantity;

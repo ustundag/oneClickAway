@@ -10,7 +10,7 @@ import java.net.URI;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class CategoryDTO extends AbstractDTO{
+public class CategoryDTO extends AbstractDTO {
     private Long parentCategoryId;
     private URI uri;
 }

@@ -1,4 +1,4 @@
-package com.clickaway.model.entity;
+package com.clickaway.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Data
 @MappedSuperclass
 @EqualsAndHashCode(of = {"id"})
-//@EqualsAndHashCode(of = {"id","title"})
 public class AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

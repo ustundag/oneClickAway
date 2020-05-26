@@ -1,13 +1,12 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.Coupon;
+import com.clickaway.entity.Coupon;
 import com.clickaway.repository.CouponRepository;
 import com.clickaway.service.dto.CouponDTO;
 import com.clickaway.transformer.CouponTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CouponServiceImpl implements CouponService {
-    private final CouponRepository  couponRepository;
+    private final CouponRepository couponRepository;
     private final CouponTransformer couponTransformer;
 
     @Override

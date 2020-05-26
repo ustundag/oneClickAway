@@ -1,6 +1,6 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.Category;
+import com.clickaway.entity.Category;
 import com.clickaway.repository.CategoryRepository;
 import com.clickaway.service.dto.CategoryDTO;
 import com.clickaway.transformer.CategoryTransformer;

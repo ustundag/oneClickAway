@@ -1,4 +1,4 @@
-package com.clickaway.model.entity;
+package com.clickaway.entity;
 
 import lombok.*;
 

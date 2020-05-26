@@ -1,6 +1,6 @@
 package com.clickaway.controller;
 
-import com.clickaway.model.entity.Coupon;
+import com.clickaway.entity.Coupon;
 import com.clickaway.service.CouponServiceImpl;
 import com.clickaway.service.dto.CouponDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/coupon")
 public class CouponController {
-
-    //@Autowired
     private final CouponServiceImpl couponService;
 
     @GetMapping

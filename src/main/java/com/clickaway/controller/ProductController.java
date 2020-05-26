@@ -1,6 +1,6 @@
 package com.clickaway.controller;
 
-import com.clickaway.model.entity.Product;
+import com.clickaway.entity.Product;
 import com.clickaway.service.ProductServiceImpl;
 import com.clickaway.service.dto.ProductDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/product")
 public class ProductController {
-
-    //@Autowired
     private final ProductServiceImpl productService;
 
     @GetMapping

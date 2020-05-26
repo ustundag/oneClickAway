@@ -1,6 +1,5 @@
 package com.clickaway.service;
 
-import com.clickaway.model.entity.Product;
 import com.clickaway.service.dto.ProductDTO;
 import com.clickaway.service.dto.ShoppingCartDTO;
 
@@ -9,7 +8,7 @@ public interface ShoppingCartService {
 
     ShoppingCartDTO addItem(ProductDTO productDTO);
 
-    ShoppingCartDTO finishShopping();
+    ShoppingCartDTO finishShopping() throws InstantiationException, IllegalAccessException;
 
     //void deleteItem(Long id);
 }

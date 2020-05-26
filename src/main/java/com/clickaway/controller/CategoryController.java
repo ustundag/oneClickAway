@@ -1,6 +1,6 @@
 package com.clickaway.controller;
 
-import com.clickaway.model.entity.Category;
+import com.clickaway.entity.Category;
 import com.clickaway.service.CategoryServiceImpl;
 import com.clickaway.service.dto.CategoryDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/category")
 public class CategoryController {
-
-    //@Autowired
     private final CategoryServiceImpl categoryService;
 
     @GetMapping

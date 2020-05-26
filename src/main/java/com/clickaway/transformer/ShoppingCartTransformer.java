@@ -1,10 +1,9 @@
 package com.clickaway.transformer;
 
-import com.clickaway.model.entity.ShoppingCart;
-import com.clickaway.model.entity.ShoppingCartItem;
-import com.clickaway.service.dto.ProductDTO;
+import com.clickaway.calculator.ShoppingCartCalculatorImpl;
+import com.clickaway.entity.ShoppingCart;
+import com.clickaway.entity.ShoppingCartItem;
 import com.clickaway.service.dto.ShoppingCartDTO;
-import com.clickaway.util.ShoppingCartCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartTransformer {
-    private final ShoppingCartCalculator shoppingCartCalculator;
+    private final ShoppingCartCalculatorImpl shoppingCartCalculator;
     private final BigDecimal ZERO = new BigDecimal(0);
 
     public ShoppingCartDTO transformToShoppingCartDTO(ShoppingCart shoppingCart) {
@@ -42,15 +41,6 @@ public class ShoppingCartTransformer {
         shoppingCartDTO.setId(shoppingCart.getId());
         shoppingCartDTO.setTitle(shoppingCart.getTitle());
         return shoppingCartDTO;
-    }
-
-    public ShoppingCartItem transformToShoppingCartItem(ProductDTO productDTO) {
-        ShoppingCartItem cartItem = new ShoppingCartItem(
-                productDTO.getPrice(),
-                productDTO.getQuantity(),
-                productDTO.getCategoryId());
-        cartItem.setTitle(productDTO.getTitle());
-        return cartItem;
     }
 
 }
