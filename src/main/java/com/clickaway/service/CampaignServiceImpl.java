@@ -15,8 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CampaignServiceImpl implements CampaignService {
 
-    //Field injection is not recommended ?
-    //@Autowired
     private final CampaignRepository campaignRepository;
     private final CampaignTransformer campaignTransformer;
 

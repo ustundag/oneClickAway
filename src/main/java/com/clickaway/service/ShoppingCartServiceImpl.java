@@ -27,11 +27,11 @@ import static com.clickaway.types.CalculatorType.COUPON;
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
-    private final CategoryRepository categoryRepository;
     private final ShoppingCartTransformer shoppingCartTransformer;
-    private final DeliveryCostCalculatorImpl deliveryCostCalculatorImpl;
     private final ProductTransformer productTransformer;
+    private final CategoryRepository categoryRepository;
     private final DiscountCalculatorFactory discountCalculatorFactory;
+    private final DeliveryCostCalculatorImpl deliveryCostCalculatorImpl;
     private ShoppingCartDTO mainShoppingCartDTO = null;
 
     @Override
@@ -57,6 +57,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDTO finishShopping() throws InstantiationException, IllegalAccessException {
+        mainShoppingCartDTO = Optional.ofNullable(mainShoppingCartDTO).orElseGet(() -> fetchShoppingCart());
+
         BigDecimal campaignDiscount = (BigDecimal) discountCalculatorFactory
                 .getDiscountCalculator(CAMPAIGN)
                 .calculateDiscount(mainShoppingCartDTO.getTotal());

@@ -14,6 +14,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CouponServiceImpl implements CouponService {
+
     private final CouponRepository couponRepository;
     private final CouponTransformer couponTransformer;
 
