@@ -50,9 +50,9 @@ class ShoppingCartServiceImplTest {
         // given
 
         // when
-        Product ProductMock = mock(Product.class);
+        Product productMock = mock(Product.class);
         when(shoppingCartRepository.save(any(ShoppingCart.class))).thenReturn(cart);
-        when(ProductMock.getId()).thenReturn(id);
+        when(productMock.getId()).thenReturn(id);
 
         ShoppingCartDTO shoppingCartDTOMock = mock(ShoppingCartDTO.class);
         when(shoppingCartDTOMock.getId()).thenReturn(id);

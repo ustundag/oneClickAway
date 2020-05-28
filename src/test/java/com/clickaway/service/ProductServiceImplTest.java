@@ -36,27 +36,27 @@ class ProductServiceImplTest {
         Long id = 1L;
         String title = "clothes";
         // given
-        Product Product = new Product();
-        Product.setId(id);
-        Product.setTitle(title);
+        Product product = new Product();
+        product.setId(id);
+        product.setTitle(title);
 
         // when
-        Product ProductMock = mock(Product.class);
-        when(ProductMock.getId()).thenReturn(id);
-        when(ProductMock.getTitle()).thenReturn(title);
+        Product productMock = mock(Product.class);
+        when(productMock.getId()).thenReturn(id);
+        when(productMock.getTitle()).thenReturn(title);
         when(productRepository.save(any(Product.class)))
-                .thenReturn(ProductMock);
+                .thenReturn(productMock);
 
-        ProductDTO ProductMockDTO = mock(ProductDTO.class);
-        when(ProductMockDTO.getId()).thenReturn(id);
-        when(ProductMockDTO.getTitle()).thenReturn(title);
+        ProductDTO productMockDTO = mock(ProductDTO.class);
+        when(productMockDTO.getId()).thenReturn(id);
+        when(productMockDTO.getTitle()).thenReturn(title);
         when(productTransformer.transformToProductDTO(any(Product.class)))
-                .thenReturn(ProductMockDTO);
+                .thenReturn(productMockDTO);
 
         // then
-        ProductDTO ProductDTO = productService.addProduct(Product);
-        assertEquals(ProductDTO.getId(), id);
-        assertEquals(ProductDTO.getTitle(), title);
+        ProductDTO productDTO = productService.addProduct(product);
+        assertEquals(productDTO.getId(), id);
+        assertEquals(productDTO.getTitle(), title);
     }
 
     @Test
@@ -65,40 +65,40 @@ class ProductServiceImplTest {
         Long id = 1L;
 
         // when
-        Product ProductMock = mock(Product.class);
-        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(ProductMock));
-        when(ProductMock.getId()).thenReturn(id);
+        Product productMock = mock(Product.class);
+        when(productRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(productMock));
+        when(productMock.getId()).thenReturn(id);
 
-        ProductDTO ProductMockDTO = mock(ProductDTO.class);
-        when(ProductMockDTO.getId()).thenReturn(id);
+        ProductDTO productMockDTO = mock(ProductDTO.class);
+        when(productMockDTO.getId()).thenReturn(id);
         when(productTransformer.transformToProductDTO(any(Product.class)))
-                .thenReturn(ProductMockDTO);
+                .thenReturn(productMockDTO);
 
         // then
-        ProductDTO ProductDTO = productService.getProduct(id);
-        assertEquals(ProductDTO.getId(), id);
+        ProductDTO productDTO = productService.getProduct(id);
+        assertEquals(productDTO.getId(), id);
     }
 
     @Test
     void getAllProducts() {
-        List<Product> ProductList = new ArrayList<>();
-        Product Product = new Product();
-        Product.setId(1L);
-        ProductList.add(Product);
-        Product = new Product();
-        Product.setId(2L);
-        ProductList.add(Product);
+        List<Product> productList = new ArrayList<>();
+        Product product = new Product();
+        product.setId(1L);
+        productList.add(product);
+        product = new Product();
+        product.setId(2L);
+        productList.add(product);
 
         // given
 
         // when
-        when(productRepository.findAll()).thenReturn(ProductList);
-        ProductDTO ProductMockDTO_1 = mock(ProductDTO.class);
-        ProductDTO ProductMockDTO_2 = mock(ProductDTO.class);
-        when(ProductMockDTO_1.getId()).thenReturn(1L);
-        when(ProductMockDTO_2.getId()).thenReturn(2L);
+        when(productRepository.findAll()).thenReturn(productList);
+        ProductDTO productMockDTO_1 = mock(ProductDTO.class);
+        ProductDTO productMockDTO_2 = mock(ProductDTO.class);
+        when(productMockDTO_1.getId()).thenReturn(1L);
+        when(productMockDTO_2.getId()).thenReturn(2L);
         when(productTransformer.transformToProductDTO(any(Product.class)))
-                .thenReturn(ProductMockDTO_1, ProductMockDTO_2);
+                .thenReturn(productMockDTO_1, productMockDTO_2);
 
         // then
         List<ProductDTO> allProducts = productService.getAllProducts();

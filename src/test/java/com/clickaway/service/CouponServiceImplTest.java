@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -37,27 +36,27 @@ class CouponServiceImplTest {
         Long id = 1L;
         String title = "clothes";
         // given
-        Coupon Coupon = new Coupon();
-        Coupon.setId(id);
-        Coupon.setTitle(title);
+        Coupon coupon = new Coupon();
+        coupon.setId(id);
+        coupon.setTitle(title);
 
         // when
-        Coupon CouponMock = mock(Coupon.class);
-        when(CouponMock.getId()).thenReturn(id);
-        when(CouponMock.getTitle()).thenReturn(title);
+        Coupon couponMock = mock(Coupon.class);
+        when(couponMock.getId()).thenReturn(id);
+        when(couponMock.getTitle()).thenReturn(title);
         when(couponRepository.save(any(Coupon.class)))
-                .thenReturn(CouponMock);
+                .thenReturn(couponMock);
 
-        CouponDTO CouponMockDTO = mock(CouponDTO.class);
-        when(CouponMockDTO.getId()).thenReturn(id);
-        when(CouponMockDTO.getTitle()).thenReturn(title);
+        CouponDTO couponMockDTO = mock(CouponDTO.class);
+        when(couponMockDTO.getId()).thenReturn(id);
+        when(couponMockDTO.getTitle()).thenReturn(title);
         when(couponTransformer.transformToCouponDTO(any(Coupon.class)))
-                .thenReturn(CouponMockDTO);
+                .thenReturn(couponMockDTO);
 
         // then
-        CouponDTO CouponDTO = couponService.addCoupon(Coupon);
-        assertEquals(CouponDTO.getId(), id);
-        assertEquals(CouponDTO.getTitle(), title);
+        CouponDTO couponDTO = couponService.addCoupon(coupon);
+        assertEquals(couponDTO.getId(), id);
+        assertEquals(couponDTO.getTitle(), title);
     }
 
     @Test
@@ -66,40 +65,40 @@ class CouponServiceImplTest {
         Long id = 1L;
 
         // when
-        Coupon CouponMock = mock(Coupon.class);
-        when(couponRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(CouponMock));
-        when(CouponMock.getId()).thenReturn(id);
+        Coupon couponMock = mock(Coupon.class);
+        when(couponRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(couponMock));
+        when(couponMock.getId()).thenReturn(id);
 
-        CouponDTO CouponMockDTO = mock(CouponDTO.class);
-        when(CouponMockDTO.getId()).thenReturn(id);
+        CouponDTO couponMockDTO = mock(CouponDTO.class);
+        when(couponMockDTO.getId()).thenReturn(id);
         when(couponTransformer.transformToCouponDTO(any(Coupon.class)))
-                .thenReturn(CouponMockDTO);
+                .thenReturn(couponMockDTO);
 
         // then
-        CouponDTO CouponDTO = couponService.getCoupon(id);
-        assertEquals(CouponDTO.getId(), id);
+        CouponDTO couponDTO = couponService.getCoupon(id);
+        assertEquals(couponDTO.getId(), id);
     }
 
     @Test
     void getAllCoupons() {
-        List<Coupon> CouponList = new ArrayList<>();
-        Coupon Coupon = new Coupon();
-        Coupon.setId(1L);
-        CouponList.add(Coupon);
-        Coupon = new Coupon();
-        Coupon.setId(2L);
-        CouponList.add(Coupon);
+        List<Coupon> couponList = new ArrayList<>();
+        Coupon coupon = new Coupon();
+        coupon.setId(1L);
+        couponList.add(coupon);
+        coupon = new Coupon();
+        coupon.setId(2L);
+        couponList.add(coupon);
 
         // given
 
         // when
-        when(couponRepository.findAll()).thenReturn(CouponList);
-        CouponDTO CouponMockDTO_1 = mock(CouponDTO.class);
-        CouponDTO CouponMockDTO_2 = mock(CouponDTO.class);
-        when(CouponMockDTO_1.getId()).thenReturn(1L);
-        when(CouponMockDTO_2.getId()).thenReturn(2L);
+        when(couponRepository.findAll()).thenReturn(couponList);
+        CouponDTO couponMockDTO_1 = mock(CouponDTO.class);
+        CouponDTO couponMockDTO_2 = mock(CouponDTO.class);
+        when(couponMockDTO_1.getId()).thenReturn(1L);
+        when(couponMockDTO_2.getId()).thenReturn(2L);
         when(couponTransformer.transformToCouponDTO(any(Coupon.class)))
-                .thenReturn(CouponMockDTO_1, CouponMockDTO_2);
+                .thenReturn(couponMockDTO_1, couponMockDTO_2);
 
         // then
         List<CouponDTO> allCoupons = couponService.getAllCoupons();

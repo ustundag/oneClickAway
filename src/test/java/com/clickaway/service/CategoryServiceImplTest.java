@@ -56,16 +56,16 @@ class CategoryServiceImplTest {
         when(categoryRepository.save(any(Category.class)))
                 .thenReturn(categoryMock);
 
-        CategoryDTO CategoryMockDTO = mock(CategoryDTO.class);
-        when(CategoryMockDTO.getId()).thenReturn(id);
-        when(CategoryMockDTO.getTitle()).thenReturn(title);
+        CategoryDTO categoryMockDTO = mock(CategoryDTO.class);
+        when(categoryMockDTO.getId()).thenReturn(id);
+        when(categoryMockDTO.getTitle()).thenReturn(title);
         when(categoryTransformer.transformToCategoryDTO(any(Category.class)))
-                .thenReturn(CategoryMockDTO);
+                .thenReturn(categoryMockDTO);
 
         // then
-        CategoryDTO CategoryDTO = categoryService.addCategory(category);
-        assertEquals(CategoryDTO.getId(), id);
-        assertEquals(CategoryDTO.getTitle(), title);
+        CategoryDTO categoryDTO = categoryService.addCategory(category);
+        assertEquals(categoryDTO.getId(), id);
+        assertEquals(categoryDTO.getTitle(), title);
     }
 
     @Test
@@ -74,45 +74,45 @@ class CategoryServiceImplTest {
         Long id = 1L;
 
         // when
-        Category CategoryMock = mock(Category.class);
-        when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(CategoryMock));
-        when(CategoryMock.getId()).thenReturn(id);
+        Category categoryMock = mock(Category.class);
+        when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(categoryMock));
+        when(categoryMock.getId()).thenReturn(id);
 
-        CategoryDTO CategoryMockDTO = mock(CategoryDTO.class);
-        when(CategoryMockDTO.getId()).thenReturn(id);
+        CategoryDTO categoryMockDTO = mock(CategoryDTO.class);
+        when(categoryMockDTO.getId()).thenReturn(id);
         when(categoryTransformer.transformToCategoryDTO(any(Category.class)))
-                .thenReturn(CategoryMockDTO);
+                .thenReturn(categoryMockDTO);
 
         // then
-        CategoryDTO CategoryDTO = categoryService.getCategory(id);
-        assertEquals(CategoryDTO.getId(), id);
+        CategoryDTO categoryDTO = categoryService.getCategory(id);
+        assertEquals(categoryDTO.getId(), id);
     }
 
     @Test
     void getAllCategories() {
-        List<Category> CategoryList = new ArrayList<>();
-        Category Category = new Category();
-        Category.setId(1L);
-        CategoryList.add(Category);
-        Category = new Category();
-        Category.setId(2L);
-        CategoryList.add(Category);
+        List<Category> categoryList = new ArrayList<>();
+        Category category = new Category();
+        category.setId(1L);
+        categoryList.add(category);
+        category = new Category();
+        category.setId(2L);
+        categoryList.add(category);
 
         // given
 
         // when
-        when(categoryRepository.findAll()).thenReturn(CategoryList);
-        CategoryDTO CategoryMockDTO_1 = mock(CategoryDTO.class);
-        CategoryDTO CategoryMockDTO_2 = mock(CategoryDTO.class);
-        when(CategoryMockDTO_1.getId()).thenReturn(1L);
-        when(CategoryMockDTO_2.getId()).thenReturn(2L);
+        when(categoryRepository.findAll()).thenReturn(categoryList);
+        CategoryDTO categoryMockDTO_1 = mock(CategoryDTO.class);
+        CategoryDTO categoryMockDTO_2 = mock(CategoryDTO.class);
+        when(categoryMockDTO_1.getId()).thenReturn(1L);
+        when(categoryMockDTO_2.getId()).thenReturn(2L);
         when(categoryTransformer.transformToCategoryDTO(any(Category.class)))
-                .thenReturn(CategoryMockDTO_1, CategoryMockDTO_2);
+                .thenReturn(categoryMockDTO_1, categoryMockDTO_2);
 
         // then
-        List<CategoryDTO> allCategorys = categoryService.getAllCategories();
-        assertEquals(allCategorys.size(), 2);
-        assertEquals(allCategorys.get(1).getId(), 2L);
+        List<CategoryDTO> allCategories = categoryService.getAllCategories();
+        assertEquals(allCategories.size(), 2);
+        assertEquals(allCategories.get(1).getId(), 2L);
     }
 
     @Test
