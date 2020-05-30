@@ -14,7 +14,7 @@ public class ShoppingCartCalculatorImpl {
     public BigDecimal calculateTotal(List<ShoppingCartItem> items) {
         BigDecimal total = new BigDecimal(0);
         total = items.stream()
-                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .map(item -> item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal::add)
                 .get();
         return total;

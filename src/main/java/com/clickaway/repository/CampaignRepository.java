@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CampaignRepository extends JpaRepository<Campaign, Long> {
-    List<Campaign> findAllByCategoryIdAndItemLimitIsLessThanEqual(Long catId, int itemLimit);
+    List<Campaign> findAllByCategoryIdAndItemLimitIsLessThanEqual(Long id, int itemLimit);
 }

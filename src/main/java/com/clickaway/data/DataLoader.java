@@ -1,13 +1,7 @@
 package com.clickaway.data;
 
-import com.clickaway.entity.Campaign;
-import com.clickaway.entity.Category;
-import com.clickaway.entity.Coupon;
-import com.clickaway.entity.Product;
-import com.clickaway.repository.CampaignRepository;
-import com.clickaway.repository.CategoryRepository;
-import com.clickaway.repository.CouponRepository;
-import com.clickaway.repository.ProductRepository;
+import com.clickaway.entity.*;
+import com.clickaway.repository.*;
 import com.clickaway.types.DiscountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -23,14 +17,18 @@ public class DataLoader implements ApplicationRunner {
     private final CampaignRepository campaignRepository;
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartItemRepository shoppingCartItemRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         insertCampaigns();
-        insertCategories();
         insertCoupons();
+        insertCategories();
         insertProducts();
-        System.out.println("[DataLoader] Initial data added.");
+        insertShoppingCart();
+        insertShoppingCartItem();
+        System.out.println("[oneClickAway] DataLoader() -> Initial data added.");
     }
 
     private void insertCampaigns() {
@@ -43,7 +41,7 @@ public class DataLoader implements ApplicationRunner {
         campaignRepository.save(campaign);
         campaign = new Campaign();
         campaign.setTitle("clothes-winter");
-        campaign.setCategoryId(3L);
+        campaign.setCategoryId(2L);
         campaign.setDiscount(new BigDecimal(50));
         campaign.setItemLimit(5);
         campaign.setDiscountType(DiscountType.RATE);
@@ -51,23 +49,10 @@ public class DataLoader implements ApplicationRunner {
         campaign = new Campaign();
         campaign.setTitle("occasional");
         campaign.setCategoryId(1L);
-        campaign.setDiscount(new BigDecimal(5));
+        campaign.setDiscount(new BigDecimal(15));
         campaign.setItemLimit(5);
         campaign.setDiscountType(DiscountType.AMOUNT);
         campaignRepository.save(campaign);
-    }
-
-    private void insertCategories() {
-        Category category = new Category();
-        category.setTitle("tech");
-        categoryRepository.save(category);
-        category = new Category();
-        category.setTitle("device");
-        category.setParentCategoryId(1L);
-        categoryRepository.save(category);
-        category = new Category();
-        category.setTitle("clothes");
-        categoryRepository.save(category);
     }
 
     private void insertCoupons() {
@@ -85,21 +70,58 @@ public class DataLoader implements ApplicationRunner {
         couponRepository.save(coupon);
     }
 
+    private void insertCategories() {
+        Category category = new Category();
+        category.setTitle("tech");
+        categoryRepository.save(category);
+        category = new Category();
+        category.setTitle("device");
+        category.setParentCategory("tech");
+        categoryRepository.save(category);
+        category = new Category();
+        category.setTitle("clothes");
+        categoryRepository.save(category);
+    }
+
     private void insertProducts() {
+        Category category = new Category();
         Product product = new Product();
         product.setTitle("laptop");
-        product.setCategoryId(2L);
-        product.setPrice(new BigDecimal(10));
+        product.setPrice(new BigDecimal(15));
+        category.setId(1L);
+        product.setCategory(category);
         productRepository.save(product);
         product = new Product();
-        product.setTitle("phone");
-        product.setCategoryId(2L);
-        product.setPrice(new BigDecimal(20));
+        product.setTitle("ssd");
+        product.setQuantity(4);
+        product.setPrice(new BigDecimal(15));
+        category.setId(2L);
+        product.setCategory(category);
         productRepository.save(product);
         product = new Product();
         product.setTitle("t-shirt");
-        product.setCategoryId(3L);
-        product.setPrice(new BigDecimal(30));
+        product.setQuantity(2);
+        product.setPrice(new BigDecimal(15));
+        category.setId(3L);
+        product.setCategory(category);
         productRepository.save(product);
+    }
+
+    private void insertShoppingCart() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.setTitle("shopping_cart_customerID_123");
+        shoppingCartRepository.save(cart);
+    }
+
+    private void insertShoppingCartItem() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.setId(1L);
+        Product product = new Product();
+        product.setId(2L);
+        ShoppingCartItem item = new ShoppingCartItem();
+        item.setCart(cart);
+        item.setProduct(product);
+        item.setQuantity(2);
+        shoppingCartItemRepository.save(item);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,15 +24,15 @@ public class CampaignController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CampaignDTO> getOne(@PathVariable long id) {
-        CampaignDTO campaignDTO = campaignService.getCampaign(id);
-        return (campaignDTO != null) ? ResponseEntity.ok().body(campaignDTO)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<CampaignDTO> campaign = campaignService.getCampaign(id);
+        return campaign.map(response -> ResponseEntity.ok().body(response))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<CampaignDTO> addOne(@RequestBody Campaign campaign) {
-        CampaignDTO campaignDTOCreated = campaignService.addCampaign(campaign);
-        return ResponseEntity.ok(campaignDTOCreated);
+    public ResponseEntity<List<CampaignDTO>> addCampaigns(@RequestBody List<Campaign> campaigns) {
+        List<CampaignDTO> campaigns_created = campaignService.addCampaign(campaigns);
+        return ResponseEntity.ok(campaigns_created);
     }
 
     @DeleteMapping("{id}")

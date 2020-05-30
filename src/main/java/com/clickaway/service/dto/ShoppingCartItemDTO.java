@@ -11,9 +11,10 @@ import java.net.URI;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @ToString
-public class ProductDTO extends AbstractDTO {
-    private BigDecimal price;
-    private int quantity = 1;
-    private String categoryName;
+public class ShoppingCartItemDTO extends AbstractDTO {
+    private Long cartID;
+    private String productTitle;
+    private BigDecimal productPrice;
+    private int quantity;
     private URI uri;
 }

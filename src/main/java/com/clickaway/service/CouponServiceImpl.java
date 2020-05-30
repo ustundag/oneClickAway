@@ -7,6 +7,7 @@ import com.clickaway.transformer.CouponTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,20 +15,27 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CouponServiceImpl implements CouponService {
-
     private final CouponRepository couponRepository;
     private final CouponTransformer couponTransformer;
 
+    @Transactional
     @Override
-    public CouponDTO addCoupon(Coupon coupon) {
-        Coupon coupon_saved = couponRepository.save(coupon);
-        return couponTransformer.transformToCouponDTO(coupon_saved);
+    public List<CouponDTO> addCoupon(List<Coupon> coupons) {
+        List<CouponDTO> coupons_created = new ArrayList<>();
+        Coupon coupon_saved;
+        CouponDTO couponDTO;
+        for (Coupon coupon : coupons) {
+            coupon_saved = couponRepository.save(coupon);
+            couponDTO = couponTransformer.transformToCouponDTO(coupon_saved);
+            coupons_created.add(couponDTO);
+        }
+        return coupons_created;
     }
 
     @Override
-    public CouponDTO getCoupon(Long id) {
+    public Optional<CouponDTO> getCoupon(Long id) {
         Optional<Coupon> coupon = couponRepository.findById(id);
-        return coupon.map(obj -> couponTransformer.transformToCouponDTO(obj))
+        return coupon.map(obj -> Optional.of(couponTransformer.transformToCouponDTO(obj)))
                 .orElse(null);
     }
 
@@ -46,4 +54,6 @@ public class CouponServiceImpl implements CouponService {
     public void deleteCoupon(Long id) {
         couponRepository.deleteById(id);
     }
+
+
 }

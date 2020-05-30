@@ -4,11 +4,12 @@ import com.clickaway.entity.Campaign;
 import com.clickaway.service.dto.CampaignDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CampaignService {
-    CampaignDTO addCampaign(Campaign campaign);
+    List<CampaignDTO> addCampaign(List<Campaign> campaigns);
 
-    CampaignDTO getCampaign(Long id);
+    Optional<CampaignDTO> getCampaign(Long id);
 
     List<CampaignDTO> getAllCampaigns();
 

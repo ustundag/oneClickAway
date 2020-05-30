@@ -3,6 +3,7 @@ package com.clickaway.calculator;
 import com.clickaway.constant.Constant;
 import com.clickaway.entity.Coupon;
 import com.clickaway.repository.CouponRepository;
+import com.clickaway.service.dto.ShoppingCartIndividualDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +18,14 @@ public class CouponCalculatorImpl implements DiscountCalculator {
     private final CouponRepository couponRepository;
 
     @Override
-    public BigDecimal calculateDiscount(BigDecimal current) {
+    public BigDecimal calculateDiscount(ShoppingCartIndividualDTO individualCart) {
         BigDecimal couponDiscount = new BigDecimal(0);
+        BigDecimal total = individualCart.getTotal();
+        BigDecimal current = total.subtract(individualCart.getCampaignDiscount());
+
         List<Coupon> eligibleCoupons = couponRepository.findAllByMinAmountIsLessThanEqual(current);
-        if (eligibleCoupons.size() != 0) {
+        if (eligibleCoupons.size() > 0) {
+            // TODO selection process is min amount
             Coupon coupon = Collections.max(eligibleCoupons, Comparator.comparing(c -> c.getMinAmount()));
             System.out.println("[ShoppingCartCalculator] calculateCouponDiscount() -> Successfully applied the coupon below...");
             System.out.println(coupon.toString());

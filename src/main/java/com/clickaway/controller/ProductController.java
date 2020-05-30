@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,20 +23,20 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getOne(@PathVariable long id) {
-        ProductDTO productDTO = productService.getProduct(id);
-        return (productDTO != null) ? ResponseEntity.ok().body(productDTO)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable long id) {
+        Optional<ProductDTO> product = productService.getProduct(id);
+        return product.map(response -> ResponseEntity.ok().body(response))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> addOne(@RequestBody Product product) {
-        ProductDTO productDTOCreated = productService.addProduct(product);
-        return ResponseEntity.ok(productDTOCreated);
+    public ResponseEntity<List<ProductDTO>> addProduct(@RequestBody List<Product> products) {
+        List<ProductDTO> products_created = productService.addProduct(products);
+        return ResponseEntity.ok(products_created);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteOne(@PathVariable long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }

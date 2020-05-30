@@ -14,20 +14,26 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CampaignServiceImpl implements CampaignService {
-
     private final CampaignRepository campaignRepository;
     private final CampaignTransformer campaignTransformer;
 
     @Override
-    public CampaignDTO addCampaign(Campaign campaign) {
-        Campaign campaign_saved = campaignRepository.save(campaign);
-        return campaignTransformer.transformToCampaignDTO(campaign_saved);
+    public List<CampaignDTO> addCampaign(List<Campaign> campaigns) {
+        List<CampaignDTO> campaigns_created = new ArrayList<>();
+        Campaign campaign_saved;
+        CampaignDTO campaignDTO;
+        for (Campaign campaign : campaigns) {
+            campaign_saved = campaignRepository.save(campaign);
+            campaignDTO = campaignTransformer.transformToCampaignDTO(campaign_saved);
+            campaigns_created.add(campaignDTO);
+        }
+        return campaigns_created;
     }
 
     @Override
-    public CampaignDTO getCampaign(Long id) {
+    public Optional<CampaignDTO> getCampaign(Long id) {
         Optional<Campaign> campaign = campaignRepository.findById(id);
-        return campaign.map(obj -> campaignTransformer.transformToCampaignDTO(obj))
+        return campaign.map(obj -> Optional.of(campaignTransformer.transformToCampaignDTO(obj)))
                 .orElse(null);
     }
 
@@ -46,4 +52,5 @@ public class CampaignServiceImpl implements CampaignService {
     public void deleteCampaign(Long id) {
         campaignRepository.deleteById(id);
     }
+
 }

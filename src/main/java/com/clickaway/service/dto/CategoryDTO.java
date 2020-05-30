@@ -1,8 +1,10 @@
 package com.clickaway.service.dto;
 
+import com.clickaway.entity.Product;
 import lombok.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -11,6 +13,7 @@ import java.net.URI;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class CategoryDTO extends AbstractDTO {
-    private Long parentCategoryId;
+    private List<Product> products;
+    private String parentCategory;
     private URI uri;
 }

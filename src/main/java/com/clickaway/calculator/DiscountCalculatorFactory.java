@@ -13,7 +13,7 @@ public class DiscountCalculatorFactory {
     public DiscountCalculator getDiscountCalculator(CalculatorType calculatorType)
             throws IllegalAccessException, InstantiationException {
 
-        switch(calculatorType){
+        switch (calculatorType) {
             case CAMPAIGN:
                 return context.getBean(CampaignCalculatorImpl.class);
             case COUPON:

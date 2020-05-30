@@ -7,6 +7,7 @@ import com.clickaway.transformer.ProductTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,16 +19,24 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductTransformer productTransformer;
 
+    @Transactional
     @Override
-    public ProductDTO addProduct(Product product) {
-        Product product_saved = productRepository.save(product);
-        return productTransformer.transformToProductDTO(product_saved);
+    public List<ProductDTO> addProduct(List<Product> products) {
+        List<ProductDTO> products_created = new ArrayList<>();
+        Product product_saved;
+        ProductDTO productDTO;
+        for (Product product : products) {
+            product_saved = productRepository.save(product);
+            productDTO = productTransformer.transformToProductDTO(product_saved);
+            products_created.add(productDTO);
+        }
+        return products_created;
     }
 
     @Override
-    public ProductDTO getProduct(Long id) {
+    public Optional<ProductDTO> getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
-        return product.map(obj -> productTransformer.transformToProductDTO(obj))
+        return product.map(obj -> Optional.of(productTransformer.transformToProductDTO(obj)))
                 .orElse(null);
     }
 
@@ -46,4 +55,5 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
 }

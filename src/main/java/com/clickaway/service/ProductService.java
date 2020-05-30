@@ -4,11 +4,12 @@ import com.clickaway.entity.Product;
 import com.clickaway.service.dto.ProductDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
-    ProductDTO addProduct(Product product);
+    List<ProductDTO> addProduct(List<Product> products);
 
-    ProductDTO getProduct(Long id);
+    Optional<ProductDTO> getProduct(Long id);
 
     List<ProductDTO> getAllProducts();
 

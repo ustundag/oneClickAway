@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,15 +24,15 @@ public class CouponController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CouponDTO> getOne(@PathVariable long id) {
-        CouponDTO couponDTO = couponService.getCoupon(id);
-        return (couponDTO != null) ? ResponseEntity.ok().body(couponDTO)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<CouponDTO> couponDTO = couponService.getCoupon(id);
+        return couponDTO.map(response -> ResponseEntity.ok().body(response))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<CouponDTO> addOne(@RequestBody Coupon coupon) {
-        CouponDTO couponDTOCreated = couponService.addCoupon(coupon);
-        return ResponseEntity.ok(couponDTOCreated);
+    public ResponseEntity<List<CouponDTO>> addCoupon(@RequestBody List<Coupon> coupons) {
+        List<CouponDTO> coupons_created = couponService.addCoupon(coupons);
+        return ResponseEntity.ok(coupons_created);
     }
 
     @DeleteMapping("{id}")

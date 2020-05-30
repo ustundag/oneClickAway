@@ -2,44 +2,38 @@ package com.clickaway.calculator;
 
 import com.clickaway.constant.Constant;
 import com.clickaway.entity.Campaign;
-import com.clickaway.entity.ShoppingCart;
+import com.clickaway.entity.Category;
 import com.clickaway.entity.ShoppingCartItem;
 import com.clickaway.repository.CampaignRepository;
-import com.clickaway.repository.ShoppingCartRepository;
+import com.clickaway.repository.CategoryRepository;
+import com.clickaway.service.dto.ShoppingCartIndividualDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
 public class CampaignCalculatorImpl implements DiscountCalculator {
-    private final ShoppingCartRepository shoppingCartRepository;
+    private final CategoryRepository categoryRepository;
     private final CampaignRepository campaignRepository;
 
     @Override
-    public BigDecimal calculateDiscount(BigDecimal current) {
-        ShoppingCart cart = shoppingCartRepository.findById(Constant.shoppingCartID).get();
-        List<ShoppingCartItem> cartItems = cart.getCartItems();
-
+    public BigDecimal calculateDiscount(ShoppingCartIndividualDTO individualCart) {
         BigDecimal campaignDiscount = new BigDecimal(0);
-        Map<Long, List<ShoppingCartItem>> itemsGroupedByCategory =
-                cartItems.stream().collect(Collectors.groupingBy(ShoppingCartItem::getCategoryId));
-
-        int quantity = cartItems.stream()
-                .mapToInt(ShoppingCartItem::getQuantity)
-                .sum();
+        Map<String, List<ShoppingCartItem>> itemsGroupedByCategory = individualCart.getCategories();
+        BigDecimal current = individualCart.getTotal();
 
         List<Campaign> eligibleCampaigns = new ArrayList<>();
-        for (Long catId : itemsGroupedByCategory.keySet()) {
-            eligibleCampaigns = campaignRepository.findAllByCategoryIdAndItemLimitIsLessThanEqual(catId, quantity);
+        for (String title : itemsGroupedByCategory.keySet()) {
+            int quantity = itemsGroupedByCategory.get(title).size();
+            Category category = categoryRepository.getCategoryByTitle(title);
+            eligibleCampaigns = campaignRepository.findAllByCategoryIdAndItemLimitIsLessThanEqual(category.getId(), quantity);
             if (eligibleCampaigns.size() > 0) {
-                // TODO apply the campaign with max discount, but now only first.
-                Campaign campaign = eligibleCampaigns.get(0);
+                // TODO selection process is max discount
+                //Campaign campaign = eligibleCampaigns.get(0);
+                Campaign campaign = Collections.max(eligibleCampaigns, Comparator.comparing(c -> c.getDiscount()));
                 System.out.println("[ShoppingCartCalculator] calculateCampaignDiscount() -> Successfully applied the campaign below...");
                 System.out.println(campaign.toString());
                 switch (campaign.getDiscountType()) {
