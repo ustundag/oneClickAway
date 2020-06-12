@@ -5,7 +5,6 @@ import com.clickaway.repository.CategoryRepository;
 import com.clickaway.service.dto.CategoryDTO;
 import com.clickaway.transformer.CategoryTransformer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
 package com.clickaway.service.dto;
 
-import com.clickaway.entity.ShoppingCartItem;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,7 +15,7 @@ import java.util.Map;
 public class ShoppingCartIndividualDTO extends AbstractDTO {
     private BigDecimal finalAmount;
     private BigDecimal deliveryCost;
-    private Map<String, List<ShoppingCartItem>> categories;
+    private Map<String, List<ShoppingCartItemDTO>> categories;
     private int quantity;
     private BigDecimal total;
     private BigDecimal couponDiscount;

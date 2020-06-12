@@ -13,7 +13,7 @@ import java.net.URI;
 @ToString
 public class ProductDTO extends AbstractDTO {
     private BigDecimal price;
-    private int quantity = 1;
+    private int stockQuantity = 1;
     private String categoryName;
     private URI uri;
 }

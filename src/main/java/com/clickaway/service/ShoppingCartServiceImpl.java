@@ -6,7 +6,6 @@ import com.clickaway.service.dto.ShoppingCartDTO;
 import com.clickaway.service.dto.ShoppingCartIndividualDTO;
 import com.clickaway.transformer.ShoppingCartTransformer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;

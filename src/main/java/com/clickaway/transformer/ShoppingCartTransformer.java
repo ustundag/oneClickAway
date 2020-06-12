@@ -7,12 +7,14 @@ import com.clickaway.entity.ShoppingCart;
 import com.clickaway.entity.ShoppingCartItem;
 import com.clickaway.service.dto.ShoppingCartDTO;
 import com.clickaway.service.dto.ShoppingCartIndividualDTO;
+import com.clickaway.service.dto.ShoppingCartItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,11 +28,11 @@ public class ShoppingCartTransformer extends AbstractTransformer {
     private final ShoppingCartCalculatorImpl shoppingCartCalculator;
     private final DiscountCalculatorFactory discountCalculatorFactory;
     private final DeliveryCostCalculatorImpl deliveryCostCalculatorImpl;
+    private final ShoppingCartItemTransformer shoppingCartItemTransformer;
 
     public ShoppingCartDTO transformToShoppingCartDTO(ShoppingCart shoppingCart) {
         URI uri = createUri(shoppingCart.getId(), "cart");
         ShoppingCartDTO shoppingCartDTO = ShoppingCartDTO.builder()
-                //.items(shoppingCart.getItems())
                 .uri(uri).build();
         shoppingCartDTO.setId(shoppingCart.getId());
         shoppingCartDTO.setTitle(shoppingCart.getTitle());
@@ -75,11 +77,22 @@ public class ShoppingCartTransformer extends AbstractTransformer {
         return individualCartDTO;
     }
 
-    private Map<String, List<ShoppingCartItem>> getProductsByCategory(List<ShoppingCartItem> cartItems) {
+    private Map<String, List<ShoppingCartItemDTO>> getProductsByCategory(List<ShoppingCartItem> cartItems) {
+        Map<String, List<ShoppingCartItemDTO>> productItemsByCategory = new HashMap<>();
         Map<String, List<ShoppingCartItem>> itemsGroupedByCategory =
                 cartItems.stream().collect(Collectors.groupingBy(shoppingCartItem ->
                         shoppingCartItem.getProduct().getCategory().getTitle()));
-        return itemsGroupedByCategory;
+
+        for (String category : itemsGroupedByCategory.keySet()) {
+            List<ShoppingCartItemDTO> cartItemDTOs = new ArrayList<>();
+            itemsGroupedByCategory.get(category).stream().forEach(cartItem -> {
+                ShoppingCartItemDTO cartItemDTO = shoppingCartItemTransformer.transformToCartItemDTO(cartItem);
+                cartItemDTOs.add(cartItemDTO);
+            });
+            productItemsByCategory.put(category, cartItemDTOs);
+        }
+
+        return productItemsByCategory;
     }
 
 }

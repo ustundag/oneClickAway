@@ -5,7 +5,6 @@ import com.clickaway.repository.CouponRepository;
 import com.clickaway.service.dto.CouponDTO;
 import com.clickaway.transformer.CouponTransformer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;

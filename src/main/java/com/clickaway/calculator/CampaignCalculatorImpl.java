@@ -3,10 +3,10 @@ package com.clickaway.calculator;
 import com.clickaway.constant.Constant;
 import com.clickaway.entity.Campaign;
 import com.clickaway.entity.Category;
-import com.clickaway.entity.ShoppingCartItem;
 import com.clickaway.repository.CampaignRepository;
 import com.clickaway.repository.CategoryRepository;
 import com.clickaway.service.dto.ShoppingCartIndividualDTO;
+import com.clickaway.service.dto.ShoppingCartItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class CampaignCalculatorImpl implements DiscountCalculator {
     @Override
     public BigDecimal calculateDiscount(ShoppingCartIndividualDTO individualCart) {
         BigDecimal campaignDiscount = new BigDecimal(0);
-        Map<String, List<ShoppingCartItem>> itemsGroupedByCategory = individualCart.getCategories();
+        Map<String, List<ShoppingCartItemDTO>> itemsGroupedByCategory = individualCart.getCategories();
         BigDecimal current = individualCart.getTotal();
 
         List<Campaign> eligibleCampaigns = new ArrayList<>();
@@ -31,7 +31,7 @@ public class CampaignCalculatorImpl implements DiscountCalculator {
             Category category = categoryRepository.getCategoryByTitle(title);
             eligibleCampaigns = campaignRepository.findAllByCategoryIdAndItemLimitIsLessThanEqual(category.getId(), quantity);
             if (eligibleCampaigns.size() > 0) {
-                // TODO selection process is max discount
+                // TODO selection process is max(discount)
                 //Campaign campaign = eligibleCampaigns.get(0);
                 Campaign campaign = Collections.max(eligibleCampaigns, Comparator.comparing(c -> c.getDiscount()));
                 System.out.println("[ShoppingCartCalculator] calculateCampaignDiscount() -> Successfully applied the campaign below...");

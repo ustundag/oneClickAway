@@ -5,7 +5,6 @@ import com.clickaway.repository.ProductRepository;
 import com.clickaway.service.dto.ProductDTO;
 import com.clickaway.transformer.ProductTransformer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;

@@ -5,7 +5,6 @@ import com.clickaway.service.dto.CouponDTO;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 @Component
 public class CouponTransformer extends AbstractTransformer {

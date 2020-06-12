@@ -5,7 +5,6 @@ import com.clickaway.service.dto.ProductDTO;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 @Component
 public class ProductTransformer extends AbstractTransformer {
@@ -14,7 +13,7 @@ public class ProductTransformer extends AbstractTransformer {
         URI uri = createUri(product.getId(), "product");
         ProductDTO productDTO = ProductDTO.builder()
                 .categoryName(product.getCategory().getTitle())
-                .quantity(product.getQuantity())
+                .stockQuantity(product.getQuantity())
                 .price(product.getPrice())
                 .uri(uri).build();
         productDTO.setId(product.getId());

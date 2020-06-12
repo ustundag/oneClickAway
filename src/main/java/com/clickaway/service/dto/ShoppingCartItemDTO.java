@@ -15,6 +15,6 @@ public class ShoppingCartItemDTO extends AbstractDTO {
     private Long cartID;
     private String productTitle;
     private BigDecimal productPrice;
-    private int quantity;
+    private int productQuantity;
     private URI uri;
 }

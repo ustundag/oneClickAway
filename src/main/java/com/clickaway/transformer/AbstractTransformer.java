@@ -1,22 +1,28 @@
 package com.clickaway.transformer;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
 abstract class AbstractTransformer {
+
     protected URI createUri(Long id, String entityType) {
-        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
-        URI uri = builder.build().toUri();
-        // path_segments = api,v1,campaign,1
-        List<String> path_segments = builder.build().getPathSegments();
-        if (path_segments.size() <= 3) {
-            uri = builder.path("/{id}")
-                    .buildAndExpand(id)
-                    .toUri();
-        }
-        return uri;
+        UriComponents uriComponents = ServletUriComponentsBuilder.fromCurrentRequest().build();
+        List<String> pathSegments = uriComponents.getPathSegments();
+
+        UriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.newInstance();
+        uriBuilder.scheme(uriComponents.getScheme())
+                .host(uriComponents.getHost())
+                .port(uriComponents.getPort())
+                .pathSegment("api", "v1", entityType)
+                .build();
+
+        return uriBuilder.path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 
 }
