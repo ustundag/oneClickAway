@@ -1,7 +1,7 @@
 package com.clickaway.controller;
 
 import com.clickaway.entity.ShoppingCartItem;
-import com.clickaway.service.ShoppingCartItemServiceImpl;
+import com.clickaway.service.ShoppingCartItemService;
 import com.clickaway.service.dto.ShoppingCartItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/item")
 public class ShoppingCartItemController {
-    private final ShoppingCartItemServiceImpl cartItemService;
+    private final ShoppingCartItemService cartItemService;
 
     @GetMapping
     public ResponseEntity<List<ShoppingCartItemDTO>> getAll() {

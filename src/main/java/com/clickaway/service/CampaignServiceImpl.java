@@ -5,13 +5,11 @@ import com.clickaway.repository.CampaignRepository;
 import com.clickaway.service.dto.CampaignDTO;
 import com.clickaway.transformer.CampaignTransformer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
 public class CampaignServiceImpl implements CampaignService {
     private final CampaignRepository campaignRepository;

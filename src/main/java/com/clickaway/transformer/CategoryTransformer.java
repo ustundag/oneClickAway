@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,23 +16,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryTransformer extends AbstractTransformer {
     private final ProductTransformer productTransformer;
-    /*
-    public Category transformToCategory(CategoryDTO categoryDTO) {
-        Category category = new Category();
-        category.setTitle(categoryDTO.getTitle());
-        category.setProducts(categoryDTO.getProducts());
-        category.setParentCategoryId(categoryDTO.getParentCategoryId());
-        return category;
-    }
-    */
 
     public CategoryDTO transformToCategoryDTO(Category category) {
-        URI uri = createUri(category.getId());
+        URI uri = createUri(category.getId(), "category");
         List<Product> products = category.getProducts();
         List<ProductDTO> productDTOs = new ArrayList<>();
-        // TODO convert products to productDTO list, take care for URI attribute.
+
+        // TODO modify uri in productDTO
+        products.forEach(product -> {
+            ProductDTO productDTO = productTransformer.transformToProductDTO(product);
+            productDTOs.add(productDTO);
+        });
+
         CategoryDTO categoryDTO = CategoryDTO.builder()
-                .products(products)
+                .productDTOs(productDTOs)
                 .parentCategory(category.getParentCategory())
                 .uri(uri)
                 .build();

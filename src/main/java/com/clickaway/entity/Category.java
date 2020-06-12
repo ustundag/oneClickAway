@@ -12,8 +12,6 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-// https://stackoverflow.com/a/37727206/2966857
-//@Data
 @Getter
 @Setter
 @Entity
@@ -21,7 +19,6 @@ import java.util.List;
 public class Category extends AbstractEntity {
     private String parentCategory;
 
-    // https://stackoverflow.com/questions/16577907/hibernate-onetomany-relationship-causes-infinite-loop-or-empty-entries-in-json/47118403#47118403
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
     private List<Product> products = new ArrayList<>();

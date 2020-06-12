@@ -1,7 +1,7 @@
 package com.clickaway.controller;
 
 import com.clickaway.entity.Category;
-import com.clickaway.service.CategoryServiceImpl;
+import com.clickaway.service.CategoryService;
 import com.clickaway.service.dto.CategoryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/category")
 public class CategoryController {
-    private final CategoryServiceImpl categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {

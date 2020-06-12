@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
-// https://stackoverflow.com/a/37727206/2966857
-//@Data
 @Getter
 @Setter
 @Entity
@@ -19,7 +17,7 @@ import java.math.BigDecimal;
 public class Product extends AbstractEntity {
     private BigDecimal price;
     private int quantity = 1;
-    // https://stackoverflow.com/questions/16577907/hibernate-onetomany-relationship-causes-infinite-loop-or-empty-entries-in-json/47118403#47118403
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "category_id")

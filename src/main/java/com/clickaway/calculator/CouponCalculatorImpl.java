@@ -25,7 +25,7 @@ public class CouponCalculatorImpl implements DiscountCalculator {
 
         List<Coupon> eligibleCoupons = couponRepository.findAllByMinAmountIsLessThanEqual(current);
         if (eligibleCoupons.size() > 0) {
-            // TODO selection process is min amount
+            // TODO selection decision is according to minAmount
             Coupon coupon = Collections.max(eligibleCoupons, Comparator.comparing(c -> c.getMinAmount()));
             System.out.println("[ShoppingCartCalculator] calculateCouponDiscount() -> Successfully applied the coupon below...");
             System.out.println(coupon.toString());

@@ -1,7 +1,7 @@
 package com.clickaway.controller;
 
 import com.clickaway.entity.Coupon;
-import com.clickaway.service.CouponServiceImpl;
+import com.clickaway.service.CouponService;
 import com.clickaway.service.dto.CouponDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/coupon")
 public class CouponController {
-    private final CouponServiceImpl couponService;
+    private final CouponService couponService;
 
     @GetMapping
     public ResponseEntity<List<CouponDTO>> getAll() {

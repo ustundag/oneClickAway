@@ -6,13 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartItemTransformer extends AbstractTransformer {
 
     public ShoppingCartItemDTO transformToCartItemDTO(ShoppingCartItem cartItem) {
-        URI uri = createUri(cartItem.getId());
+        URI uri = createUri(cartItem.getId(), "item");
         ShoppingCartItemDTO cartItemDTO = ShoppingCartItemDTO.builder()
                 .cartID(cartItem.getCart().getId())
                 .productTitle(cartItem.getProduct().getTitle())

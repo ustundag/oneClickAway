@@ -12,8 +12,6 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.Instant;
 
-// https://stackoverflow.com/a/37727206/2966857
-//@Data
 @Getter
 @Setter
 @MappedSuperclass

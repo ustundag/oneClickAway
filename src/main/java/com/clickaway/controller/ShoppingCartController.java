@@ -1,7 +1,7 @@
 package com.clickaway.controller;
 
 import com.clickaway.entity.ShoppingCart;
-import com.clickaway.service.ShoppingCartServiceImpl;
+import com.clickaway.service.ShoppingCartService;
 import com.clickaway.service.dto.ShoppingCartDTO;
 import com.clickaway.service.dto.ShoppingCartIndividualDTO;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cart")
 public class ShoppingCartController {
-    private final ShoppingCartServiceImpl shoppingCartService;
+    private final ShoppingCartService shoppingCartService;
 
     @GetMapping
     public ResponseEntity<List<ShoppingCartDTO>> getAll() {

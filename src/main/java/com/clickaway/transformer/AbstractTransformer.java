@@ -6,7 +6,7 @@ import java.net.URI;
 import java.util.List;
 
 abstract class AbstractTransformer {
-    protected URI createUri(Long id) {
+    protected URI createUri(Long id, String entityType) {
         ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
         URI uri = builder.build().toUri();
         // path_segments = api,v1,campaign,1

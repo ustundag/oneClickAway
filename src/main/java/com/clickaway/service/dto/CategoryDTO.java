@@ -13,7 +13,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class CategoryDTO extends AbstractDTO {
-    private List<Product> products;
+    private List<ProductDTO> productDTOs;
     private String parentCategory;
     private URI uri;
 }

@@ -9,5 +9,4 @@ public class Constant {
     public static final BigDecimal FIXED_COST = new BigDecimal(2.99);
     public static final BigDecimal COST_PER_DELIVERY = new BigDecimal(2);
     public static final BigDecimal COST_PER_PRODUCT = new BigDecimal(1);
-
 }

@@ -1,7 +1,7 @@
 package com.clickaway.controller;
 
 import com.clickaway.entity.Campaign;
-import com.clickaway.service.CampaignServiceImpl;
+import com.clickaway.service.CampaignService;
 import com.clickaway.service.dto.CampaignDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/campaign")
 public class CampaignController {
-    private final CampaignServiceImpl campaignService;
+    private final CampaignService campaignService;
 
     @GetMapping
     public ResponseEntity<List<CampaignDTO>> getAll() {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class ShoppingCartTransformer extends AbstractTransformer {
     private final DeliveryCostCalculatorImpl deliveryCostCalculatorImpl;
 
     public ShoppingCartDTO transformToShoppingCartDTO(ShoppingCart shoppingCart) {
-        URI uri = createUri(shoppingCart.getId());
+        URI uri = createUri(shoppingCart.getId(), "cart");
         ShoppingCartDTO shoppingCartDTO = ShoppingCartDTO.builder()
                 //.items(shoppingCart.getItems())
                 .uri(uri).build();
