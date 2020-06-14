@@ -12,14 +12,13 @@ import java.net.URI;
 public class ShoppingCartItemTransformer extends AbstractTransformer {
 
     public ShoppingCartItemDTO transformToCartItemDTO(ShoppingCartItem cartItem) {
-        URI uri = createUri(cartItem.getId(), "item");
+        URI uri = createUri(cartItem.getProduct().getId(), "product");
         ShoppingCartItemDTO cartItemDTO = ShoppingCartItemDTO.builder()
                 .cartID(cartItem.getCart().getId())
                 .productTitle(cartItem.getProduct().getTitle())
                 .productPrice(cartItem.getProduct().getPrice())
-//                .productQuantity(cartItem.getProduct().getQuantity())
                 .productQuantity(cartItem.getQuantity())
-                .uri(uri).build();
+                .productUri(uri).build();
         cartItemDTO.setId(cartItem.getId());
         cartItemDTO.setTitle(cartItem.getTitle());
         return cartItemDTO;
