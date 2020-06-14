@@ -19,6 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     @Override
     public List<CategoryDTO> addCategory(List<Category> categories) {
+        // TODO check that parentCategoryID is valid for all categories
         List<CategoryDTO> categories_created = new ArrayList<>();
         Category category_saved;
         CategoryDTO categoryDTO;

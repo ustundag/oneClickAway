@@ -27,16 +27,16 @@ public class CouponCalculatorImpl implements DiscountCalculator {
         if (eligibleCoupons.size() > 0) {
             // TODO selection decision is according to minAmount
             Coupon coupon = Collections.max(eligibleCoupons, Comparator.comparing(c -> c.getMinAmount()));
-            System.out.println("[ShoppingCartCalculator] calculateCouponDiscount() -> Successfully applied the coupon below...");
+            System.out.println("[CouponCalculatorImpl] calculateDiscount() -> Successfully applied the coupon below...");
             System.out.println(coupon.toString());
             switch (coupon.getDiscountType()) {
                 case AMOUNT:
                     couponDiscount = coupon.getDiscount();
-                    System.out.println("current:" + current + ", couponDiscount: " + couponDiscount + ", AMOUNT");
+                    System.out.println("[CouponCalculatorImpl] current:" + current + ", couponDiscount: " + couponDiscount + ", type: AMOUNT");
                     break;
                 case RATE:
                     couponDiscount = current.multiply(coupon.getDiscount()).divide(Constant.HUNDRED);
-                    System.out.println("current:" + current + ", couponDiscount: " + couponDiscount + ", RATE");
+                    System.out.println("[CouponCalculatorImpl] current:" + current + ", couponDiscount: " + couponDiscount + ", type: RATE");
                     break;
             }
         }

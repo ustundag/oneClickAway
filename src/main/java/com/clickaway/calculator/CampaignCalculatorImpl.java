@@ -34,16 +34,16 @@ public class CampaignCalculatorImpl implements DiscountCalculator {
                 // TODO selection process is max(discount)
                 //Campaign campaign = eligibleCampaigns.get(0);
                 Campaign campaign = Collections.max(eligibleCampaigns, Comparator.comparing(c -> c.getDiscount()));
-                System.out.println("[ShoppingCartCalculator] calculateCampaignDiscount() -> Successfully applied the campaign below...");
+                System.out.println("[CampaignCalculatorImpl] calculateDiscount() -> Successfully applied the campaign below...");
                 System.out.println(campaign.toString());
                 switch (campaign.getDiscountType()) {
                     case AMOUNT:
                         campaignDiscount = campaign.getDiscount();
-                        System.out.println("current:" + current + ", campaignDiscount: " + campaignDiscount + ", AMOUNT");
+                        System.out.println("[CampaignCalculatorImpl] current:" + current + ", campaignDiscount: " + campaignDiscount + ", type: AMOUNT");
                         break;
                     case RATE:
                         campaignDiscount = current.multiply(campaign.getDiscount()).divide(Constant.HUNDRED);
-                        System.out.println("current:" + current + ", campaignDiscount: " + campaignDiscount + ", RATE");
+                        System.out.println("[CampaignCalculatorImpl] current:" + current + ", campaignDiscount: " + campaignDiscount + ", type: RATE");
                         break;
                 }
                 break;

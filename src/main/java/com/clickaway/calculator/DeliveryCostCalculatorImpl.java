@@ -1,8 +1,6 @@
 package com.clickaway.calculator;
 
 import com.clickaway.constant.Constant;
-import com.clickaway.repository.ShoppingCartItemRepository;
-import com.clickaway.repository.ShoppingCartRepository;
 import com.clickaway.service.dto.ShoppingCartIndividualDTO;
 import com.clickaway.service.dto.ShoppingCartItemDTO;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +13,6 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class DeliveryCostCalculatorImpl {
-    private final ShoppingCartRepository shoppingCartRepository;
-    private final ShoppingCartItemRepository shoppingCartItemRepository;
 
     public BigDecimal calculateDeliveryCost(ShoppingCartIndividualDTO individualCart) {
         Map<String, List<ShoppingCartItemDTO>> itemProductsByCategory = individualCart.getCategories();
