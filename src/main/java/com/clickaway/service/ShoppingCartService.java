@@ -1,14 +1,18 @@
 package com.clickaway.service;
 
-import com.clickaway.service.dto.ProductDTO;
+import com.clickaway.entity.ShoppingCart;
 import com.clickaway.service.dto.ShoppingCartDTO;
+import com.clickaway.service.dto.ShoppingCartIndividualDTO;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface ShoppingCartService {
-    ShoppingCartDTO getShoppingCart();
+    ShoppingCartDTO createShoppingCart(ShoppingCart cart);
 
-    ShoppingCartDTO addItem(ProductDTO productDTO);
+    Optional<ShoppingCartIndividualDTO> getShoppingCart(Long id);
 
-    ShoppingCartDTO finishShopping() throws InstantiationException, IllegalAccessException;
+    List<ShoppingCartDTO> getAllShoppingCarts();
 
-    //void deleteItem(Long id);
+    void deleteShoppingCart(Long id);
 }

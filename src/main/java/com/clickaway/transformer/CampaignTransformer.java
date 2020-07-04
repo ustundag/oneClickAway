@@ -9,18 +9,8 @@ import java.net.URI;
 @Component
 public class CampaignTransformer extends AbstractTransformer {
 
-    public Campaign transformToCampaign(CampaignDTO campaignDTO) {
-        Campaign campaign = new Campaign();
-        campaign.setTitle(campaignDTO.getTitle());
-        campaign.setItemLimit(campaignDTO.getItemLimit());
-        campaign.setCategoryId(campaignDTO.getCategoryId());
-        campaign.setDiscount(campaignDTO.getDiscount());
-        campaign.setDiscountType(campaignDTO.getDiscountType());
-        return campaign;
-    }
-
     public CampaignDTO transformToCampaignDTO(Campaign campaign) {
-        URI uri = createUri(campaign.getId());
+        URI uri = createUri(campaign.getId(), "campaign");
         CampaignDTO campaignDTO = CampaignDTO.builder()
                 .itemLimit(campaign.getItemLimit())
                 .categoryId(campaign.getCategoryId())

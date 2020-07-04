@@ -4,11 +4,12 @@ import com.clickaway.entity.Category;
 import com.clickaway.service.dto.CategoryDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
-    CategoryDTO addCategory(Category category);
+    List<CategoryDTO> addCategory(List<Category> categories);
 
-    CategoryDTO getCategory(Long id);
+    Optional<CategoryDTO> getCategory(Long id);
 
     List<CategoryDTO> getAllCategories();
 

@@ -1,19 +1,28 @@
 package com.clickaway.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @ToString
+@Entity
+@Table(name = "cart")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "ShoppingCart Entity", description = "Database Table Design", parent = AbstractEntity.class)
 public class ShoppingCart extends AbstractEntity {
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<ShoppingCartItem> cartItems;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cart")
+    @ApiModelProperty(value = "Item List in ShoppingCart")
+    private List<ShoppingCartItem> items;
+
 }

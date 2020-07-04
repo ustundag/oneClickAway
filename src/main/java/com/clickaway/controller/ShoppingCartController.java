@@ -1,41 +1,52 @@
 package com.clickaway.controller;
 
-import com.clickaway.service.ShoppingCartServiceImpl;
-import com.clickaway.service.dto.ProductDTO;
+import com.clickaway.entity.ShoppingCart;
+import com.clickaway.service.ShoppingCartService;
 import com.clickaway.service.dto.ShoppingCartDTO;
+import com.clickaway.service.dto.ShoppingCartIndividualDTO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/cart")
+@Api(value = "Rest Controller for Shopping Cart")
 public class ShoppingCartController {
-    private final ShoppingCartServiceImpl shoppingCartService;
+    private final ShoppingCartService shoppingCartService;
 
     @GetMapping
-    public ResponseEntity<ShoppingCartDTO> getShoppingCart() {
-        ShoppingCartDTO shoppingCartDTO = shoppingCartService.getShoppingCart();
-        return ResponseEntity.ok().body(shoppingCartDTO);
+    @ApiOperation(value = "Get All ShoppingCarts")
+    public ResponseEntity<List<ShoppingCartDTO>> getAll() {
+        return ResponseEntity.ok().body(shoppingCartService.getAllShoppingCarts());
     }
 
-    @GetMapping("/finish")
-    public ResponseEntity<ShoppingCartDTO> finishShopping() throws IllegalAccessException, InstantiationException {
-        ShoppingCartDTO shoppingCartDTO = shoppingCartService.finishShopping();
-        return ResponseEntity.ok().body(shoppingCartDTO);
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Get One ShoppingCart")
+    public ResponseEntity<ShoppingCartIndividualDTO> getShoppingCart(@PathVariable long id) {
+        Optional<ShoppingCartIndividualDTO> shoppingCart = shoppingCartService.getShoppingCart(id);
+        return shoppingCart.map(response -> ResponseEntity.ok().body(response))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<ShoppingCartDTO> addItem(@RequestBody ProductDTO productDTO) {
-        ShoppingCartDTO shoppingCartDTO = shoppingCartService.addItem(productDTO);
-        return ResponseEntity.ok(shoppingCartDTO);
+    @ApiOperation(value = "Create New ShoppingCarts", notes = "Notice that Transactional Method")
+    public ResponseEntity<ShoppingCartDTO> createShoppingCart(@RequestBody ShoppingCart cart) {
+        ShoppingCartDTO shoppingCart = shoppingCartService.createShoppingCart(cart);
+        return ResponseEntity.ok(shoppingCart);
     }
 
-    /*
     @DeleteMapping
-    public ResponseEntity<Void> deleteItem(@PathVariable long id) {
-        shoppingCartService.deleteItem(id);
+    @ApiOperation(value = "Delete One ShoppingCart")
+    public ResponseEntity<Void> deleteShoppingCart(@PathVariable long id) {
+        shoppingCartService.deleteShoppingCart(id);
         return ResponseEntity.ok().build();
     }
-    */
+
 }

@@ -1,20 +1,28 @@
 package com.clickaway.calculator;
 
 import com.clickaway.constant.Constant;
-import com.clickaway.repository.ShoppingCartRepository;
+import com.clickaway.service.dto.ShoppingCartIndividualDTO;
+import com.clickaway.service.dto.ShoppingCartItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
 public class DeliveryCostCalculatorImpl {
-    private final ShoppingCartRepository shoppingCartRepository;
 
-    public BigDecimal calculateDeliveryCost() {
-        int numOfDeliveries = shoppingCartRepository.countDistinctByCategoryID();
-        int numOfProducts = shoppingCartRepository.numberOfProductQuantity();
+    public BigDecimal calculateDeliveryCost(ShoppingCartIndividualDTO individualCart) {
+        Map<String, List<ShoppingCartItemDTO>> itemProductsByCategory = individualCart.getCategories();
+        int numOfDeliveries = itemProductsByCategory.keySet().size();
+        int numOfProducts = 0;
+
+        for (String category : itemProductsByCategory.keySet()) {
+            List<ShoppingCartItemDTO> itemList = itemProductsByCategory.get(category);
+            numOfProducts += itemList.stream().mapToInt(ShoppingCartItemDTO::getProductQuantity).sum();
+        }
 
         BigDecimal cargoPrice = Constant.COST_PER_DELIVERY
                 .multiply(BigDecimal.valueOf(numOfDeliveries));

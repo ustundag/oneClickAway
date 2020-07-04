@@ -9,17 +9,8 @@ import java.net.URI;
 @Component
 public class CouponTransformer extends AbstractTransformer {
 
-    public Coupon transformToCoupon(CouponDTO couponDTO) {
-        Coupon coupon = new Coupon();
-        coupon.setTitle(couponDTO.getTitle());
-        coupon.setDiscount(couponDTO.getDiscount());
-        coupon.setDiscountType(couponDTO.getDiscountType());
-        coupon.setMinAmount(couponDTO.getMinAmount());
-        return coupon;
-    }
-
     public CouponDTO transformToCouponDTO(Coupon coupon) {
-        URI uri = createUri(coupon.getId());
+        URI uri = createUri(coupon.getId(), "coupon");
         CouponDTO couponDTO = CouponDTO.builder()
                 .discount(coupon.getDiscount())
                 .discountType(coupon.getDiscountType())
